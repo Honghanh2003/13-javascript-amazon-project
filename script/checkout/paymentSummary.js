@@ -5,14 +5,14 @@ import {formatCurrency} from '../utils/money.js'
 
 export function renderPaymentSummary() {
   let productsPriceCents = 0;
-  let shippingPriceCents = 0; // Sửa lỗi chính tả
+  let shippingPriceCents = 0; 
 
   cart.forEach((cartItem) => {
-    const products = getProduct(cartItem.productsId); // Giữ nguyên tên biến là 'products'
+    const products = getProduct(cartItem.productsId); 
     productsPriceCents += products.priceCents * cartItem.quantity;
 
     const deliveryOption = getDeliveryOption(cartItem.deliveryOptionId);
-    shippingPriceCents += deliveryOption.priceCents; // Sửa lỗi chính tả
+    shippingPriceCents += deliveryOption.priceCents;
   });
 
   const totalBeforeTax = productsPriceCents + shippingPriceCents;

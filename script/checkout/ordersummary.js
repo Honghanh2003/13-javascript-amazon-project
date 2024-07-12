@@ -13,8 +13,8 @@ hello();
 
 export function renderOrdersummary(){
 // Update cart quantity
-const totalItems = updateCartQuantity();
-document.querySelector('.return-to-home-link').innerHTML = `${totalItems} items`;
+//const totalItems = updateCartQuantity();
+//document.querySelector('.return-to-home-link').innerHTML = `${totalItems} items`;
 
 let cartSummaryHTML = '';
 
