@@ -22,20 +22,19 @@ export function getDeliveryOption(deliveryOptionId) {
       selectedOption = option;
     }
   });
+  return selectedOption || deliveryOptions[0]; 
 
-  return selectedOption || deliveryOptions[0]; // Sửa lỗi chính tả và tham chiếu mảng đúng
 }
-export function calculateDeliveryDate(deliveryOption) {
-  const today = dayjs();
-  const deliveryDate = today.add(
-    deliveryOption.deliveryDays,
-    'days'
-  );
-
-  const dateString = deliveryDate.format(
-    'dddd, MMMM D'
-  );
-
-  return dateString;
-}
-
+  
+  export function calculateDeliveryDate(deliveryOption) {
+    const today = dayjs();
+    const deliveryDate = today.add(
+      deliveryOption.deliveryDays,
+      'days'
+    );
+    const dateString = deliveryDate.format(
+      'dddd, MMMM D'
+    );
+  
+    return dateString;
+  }

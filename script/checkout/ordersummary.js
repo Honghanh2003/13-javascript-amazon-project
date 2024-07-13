@@ -3,7 +3,7 @@ import { cart, removeFromCart, saveToStorage, updateDeliveryOption } from '../..
 import { products, getProduct } from '../../data/products.js';
 import { formatCurrency } from '../utils/money.js';
 import { updateCartQuantity } from '../../data/cart.js';
-import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
+//import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { deliveryOptions, getDeliveryOption, calculateDeliveryDate} from '../../data/deliveryOption.js';
 import { renderPaymentSummary } from './paymentSummary.js';
 import { renderCheckoutHeader } from './checkoutHeader.js';
