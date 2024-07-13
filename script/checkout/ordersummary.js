@@ -3,19 +3,15 @@ import { cart, removeFromCart, saveToStorage, updateDeliveryOption } from '../..
 import { products, getProduct } from '../../data/products.js';
 import { formatCurrency } from '../utils/money.js';
 import { updateCartQuantity } from '../../data/cart.js';
-import { hello } from 'https://unpkg.com/supersimpledev@1.0.1/hello.esm.js';
 import dayjs from 'https://unpkg.com/dayjs@1.11.10/esm/index.js';
 import { deliveryOptions, getDeliveryOption} from '../../data/deliveryOption.js';
 import { renderPaymentSummary } from './paymentSummary.js';
-
-hello();
-
+import { renderCheckoutHeader } from './checkoutHeader.js';
 
 export function renderOrdersummary(){
 // Update cart quantity
 const totalItems = updateCartQuantity();
-document.querySelector('.return-to-home-link').innerHTML = `${totalItems} items`;
-
+renderCheckoutHeader();
 let cartSummaryHTML = '';
 
 cart.forEach((cartItem) => {
@@ -111,15 +107,11 @@ document.querySelectorAll('.js-delete-link').forEach((link) => {
     const productsId = link.dataset.productsId;
     removeFromCart(productsId);
 
-    const container = document.querySelector(`.js-cart-item-container-${productsId}`);
-    if (container) {
-      container.remove();
-    }
-
     // Update cart quantity
+    renderOrdersummary();
     renderPaymentSummary();
-    const totalItems = updateCartQuantity();
-    document.querySelector('.return-to-home-link').innerHTML = `${totalItems} items`;
+    renderCheckoutHeader();
+    renderOrdersummary();
   });
 });
 
@@ -153,9 +145,8 @@ document.querySelectorAll('.js-save-link').forEach((link) => {
         }
 
         updateQuantity(productsId, productQuantity);
-
-        const newTotalItems = updateCartQuantity();
-        document.querySelector('.return-to-home-link').innerHTML = `${newTotalItems} items`;
+        renderCheckoutHeader();
+        renderPaymentSummary();
       }
     }
   });
