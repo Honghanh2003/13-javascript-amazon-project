@@ -25,16 +25,27 @@ export function getDeliveryOption(deliveryOptionId) {
   return selectedOption || deliveryOptions[0]; 
 
 }
-  
-  export function calculateDeliveryDate(deliveryOption) {
-    const today = dayjs();
-    const deliveryDate = today.add(
-      deliveryOption.deliveryDays,
-      'days'
-    );
-    const dateString = deliveryDate.format(
-      'dddd, MMMM D'
-    );
-  
-    return dateString;
+
+export function isWeekend(date){
+    const dayOfWeek = date.format('dddd');
+    return dayOfWeek === 'Saturday' || dayOfWeek === 'Sunday';
   }
+
+  export function calculateDeliveryDate(deliveryOption) {
+    let remainingDays = deliveryOption.deliveryDays;
+    let targetDate= dayjs();
+
+    while(remainingDays > 0){
+      targetDate = targetDate.add(1, 'day');
+      if(isWeekend(targetDate)){
+        continue;
+      }
+
+      remainingDays--;
+    }
+
+    const deliveryDate = targetDate.format('dddd, MMMM D');
+    return deliveryDate;
+
+  }
+  
