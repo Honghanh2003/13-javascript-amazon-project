@@ -138,7 +138,7 @@ document.querySelectorAll('.js-save-link').forEach((link) => {
 
       const inputElement = document.querySelector(`.quantity-input[data-products-id="${productsId}"]`);
       if (inputElement) {
-        const productQuantity = parseInt(inputElement.value, 10);
+        const productQuantity = Number(inputElement.value);
         const quantityLabel = document.querySelector(`.quantity-label[data-products-id="${productsId}"]`);
         if (quantityLabel) {
           quantityLabel.innerHTML = productQuantity;
@@ -147,6 +147,7 @@ document.querySelectorAll('.js-save-link').forEach((link) => {
         updateQuantity(productsId, productQuantity);
         renderCheckoutHeader();
         renderPaymentSummary();
+        renderOrdersummary();
       }
     }
   });

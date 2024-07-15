@@ -209,27 +209,32 @@
   margin-top: 11px;
   margin-bottom: 15px;
 }
-.quantity-input{
-  width: 30px;
-  display: none;
-}
-.save-quantity-link{
-  display: none;
-}
-.is-editing-quantity .quantity-input{
-  display: initial;
-}
-.is-editing-quantity .save-quantity-link{
-  display: initial;
-  cursor: pointer;
-}
+
 .save-quantity-link:hover {
   color: rgb(177, 39, 4);
 }
-Tr
-.is-editing-quantity .quantity-label{
+.quantity-input {
+  width: 30px;
   display: none;
 }
-.is-editing-quantity .update-quantity-link{
+
+.save-quantity-link {
+  display: none;
+}
+
+.is-editing-quantity .quantity-input {
+  display: initial;
+}
+
+.is-editing-quantity .save-quantity-link {
+  display: initial;
+  cursor: pointer;
+}
+
+.is-editing-quantity .quantity-label {
+  display: none;
+}
+
+.is-editing-quantity .update-quantity-link {
   display: none;
 }
