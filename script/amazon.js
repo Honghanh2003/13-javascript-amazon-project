@@ -24,30 +24,30 @@ if (cartQuantity > 0) {
   }
 }
 
-products.forEach((product) => {
+products.forEach((products) => {
   productsHTML += `
     <div class="product-container">
       <div class="product-image-container">
-        <img class="product-image" src="${product.image}">
+        <img class="product-image" src="${products.image}">
       </div>
 
       <div class="product-name limit-text-to-2-lines">
-        ${product.name}
+        ${products.name}
       </div>
 
       <div class="product-rating-container">
-        <img class="product-rating-stars" src="images/ratings/rating-${product.rating.stars * 10}.png">
+        <img class="product-rating-stars" src="${products.getStartUrl()}">
         <div class="product-rating-count link-primary">
-          ${product.rating.count}
+          ${products.rating.count}
         </div>
       </div>
 
       <div class="product-price">
-        $${(product.priceCents / 100).toFixed(2)}
+        ${products.getPrice()}
       </div>
 
       <div class="product-quantity-container js-product-quantity-container">
-        <select class="js-quantity-select" data-select-id="${product.id}">
+        <select class="js-quantity-select" data-select-id="${products.id}">
           <option selected value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -63,12 +63,12 @@ products.forEach((product) => {
 
       <div class="product-spacer"></div>
 
-      <div class="added-to-cart" data-message-id="${product.id}">
+      <div class="added-to-cart" data-message-id="${products.id}">
         <img src="images/icons/checkmark.png">
         Added
       </div>
 
-      <button class="add-to-cart-button button-primary js-add-to-cart" data-products-id="${product.id}">
+      <button class="add-to-cart-button button-primary js-add-to-cart" data-products-id="${products.id}">
         Add to Cart
       </button>
     </div>
