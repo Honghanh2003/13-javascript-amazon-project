@@ -8,11 +8,11 @@ export function loadFromStorage(){
 
 if (!cart) {
   cart = [{
-    productsId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
+    productId: 'e43638ce-6aa0-4b85-b27f-e1d07eb678c6',
     quantity: 2,
     deliveryOptionId: '1'
   }, {
-    productsId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
+    productId: '15b6fc6f-327a-4ec4-896f-486349e85a3d',
     quantity: 1,
     deliveryOptionId: '2'
   }];
@@ -22,20 +22,24 @@ export function saveToStorage() {
   localStorage.setItem('cart', JSON.stringify(cart));
 }
 
-export function addToCart(productsId) {
+export function addToCart(productId) {
   let selectQuantity = 1;
 
-  const select = document.querySelector(`.js-quantity-select[data-select-id="${productsId}"]`);
+  const select = document.querySelector(`.js-quantity-select[data-select-id="${productId}"]`);
   if (select) {
     selectQuantity = parseInt(select.value, 10);
   }
 
-  let matchingItem = cart.find(item => item.productsId === productsId);
+  if (isNaN(selectQuantity) || selectQuantity < 1) {
+    selectQuantity = 1;  // Đảm bảo giá trị số lượng ít nhất là 1
+  }
+
+  let matchingItem = cart.find(item => item.productId === productId);
   if (matchingItem) {
-    matchingItem.quantity = selectQuantity;
+    matchingItem.quantity += selectQuantity;
   } else {
     cart.push({
-      productsId: productsId,
+      productId: productId,
       quantity: selectQuantity,
       deliveryOptionId: '1'
     });
@@ -44,8 +48,8 @@ export function addToCart(productsId) {
   saveToStorage();
 }
 
-export function removeFromCart(productsId) {
-  cart = cart.filter(cartItem => cartItem.productsId !== productsId);
+export function removeFromCart(productId) {
+  cart = cart.filter(cartItem => cartItem.productId !== productId);
 
   saveToStorage();
 }

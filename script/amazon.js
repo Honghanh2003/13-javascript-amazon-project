@@ -1,8 +1,8 @@
 import { cart, addToCart } from '../data/cart.js';
 import { products } from "../data/products.js";
+import {formatCurrency} from './utils/money.js'
 let productsHTML= '';
 
-// Hàm updateCartQuantity nên được định nghĩa trước khi gọi nó
 function updateCartQuantity() {
   const cartQuantity = cart.reduce((total, { quantity }) => total + quantity, 0);
 
@@ -12,7 +12,6 @@ function updateCartQuantity() {
   }
 }
 
-// Tính tổng số lượng sản phẩm trong giỏ hàng
 let cartQuantity = cart.reduce((total, { quantity }) => total + quantity, 0);
 
 if (cartQuantity > 0) {
@@ -24,30 +23,30 @@ if (cartQuantity > 0) {
   }
 }
 
-products.forEach((products) => {
+products.forEach((product) => {
   productsHTML += `
     <div class="product-container">
       <div class="product-image-container">
-        <img class="product-image" src="${products.image}">
+        <img class="product-image" src="${product.image}">
       </div>
 
       <div class="product-name limit-text-to-2-lines">
-        ${products.name}
+        ${product.name}
       </div>
 
       <div class="product-rating-container">
-        <img class="product-rating-stars" src="${products.getStartUrl()}">
+        <img class="product-rating-stars" src="${product.getStartUrl()}">
         <div class="product-rating-count link-primary">
-          ${products.rating.count}
+          ${product.rating.count}
         </div>
       </div>
 
       <div class="product-price">
-        ${products.getPrice()}
+        ${product.getPrice()}
       </div>
 
       <div class="product-quantity-container js-product-quantity-container">
-        <select class="js-quantity-select" data-select-id="${products.id}">
+        <select class="js-quantity-select" data-select-id="${product.id}">
           <option selected value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -63,19 +62,17 @@ products.forEach((products) => {
 
       <div class="product-spacer"></div>
 
-      <div class="added-to-cart" data-message-id="${products.id}">
+      <div class="added-to-cart" data-message-id="${product.id}">
         <img src="images/icons/checkmark.png">
         Added
       </div>
 
-      <button class="add-to-cart-button button-primary js-add-to-cart" data-products-id="${products.id}">
+      <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${product.id}">
         Add to Cart
       </button>
     </div>
   `;
 });
-
-console.log(productsHTML);
 
 document.querySelector('.js-products-grid').innerHTML = productsHTML;
 
@@ -84,25 +81,25 @@ const addedMessageTimeouts = {};
 
 document.querySelectorAll('.js-add-to-cart').forEach((button) => {
   button.addEventListener('click', () => {
-    const { productsId } = button.dataset;
+    const productId = button.dataset.productId;
 
-    addToCart(productsId);
+    addToCart(productId);
     updateCartQuantity();
 
-    const addedMessage = document.querySelector(`.added-to-cart[data-message-id="${productsId}"]`);
+    const addedMessage = document.querySelector(`.added-to-cart[data-message-id="${productId}"]`);
 
     if (addedMessage) {
       addedMessage.classList.add('new-class');
 
-      if (addedMessageTimeouts[productsId]) {
-        clearTimeout(addedMessageTimeouts[productsId]);
+      if (addedMessageTimeouts[productId]) {
+        clearTimeout(addedMessageTimeouts[productId]);
       }
 
       const timeoutId = setTimeout(() => {
         addedMessage.classList.remove('new-class');
       }, 2000);
 
-      addedMessageTimeouts[productsId] = timeoutId;
+      addedMessageTimeouts[productId] = timeoutId;
     }
   });
 });
