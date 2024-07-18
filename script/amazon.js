@@ -1,13 +1,13 @@
-import { cart, addToCart } from '../data/cart.js';
-import { products, loadProducts } from "../data/products.js";
-import {formatCurrency} from './utils/money.js'
+import {cart, addToCart} from '../data/cart.js';
+import {products, loadProducts} from '../data/products.js';
+import {formatCurrency} from './utils/money.js';
 
 loadProducts(renderProductsGrid);
 
-function renderProductsGrid(){
+function renderProductsGrid() {
+  let productsHTML = '';
 
-  let productsHTML= '';
-
+  // Function to update cart quantity display
   function updateCartQuantity() {
     const cartQuantity = cart.reduce((total, { quantity }) => total + quantity, 0);
 
@@ -17,8 +17,10 @@ function renderProductsGrid(){
     }
   }
 
+  // Calculate initial cart quantity
   let cartQuantity = cart.reduce((total, { quantity }) => total + quantity, 0);
 
+  // Update the cart quantity display on load
   if (cartQuantity > 0) {
     updateCartQuantity();
   } else {
@@ -28,6 +30,7 @@ function renderProductsGrid(){
     }
   }
 
+  // Iterate through products to build the HTML
   products.forEach((product) => {
     productsHTML += `
       <div class="product-container">
@@ -71,21 +74,26 @@ function renderProductsGrid(){
 
         <div class="added-to-cart" data-message-id="${product.id}">
           <img src="images/icons/checkmark.png">
-          Added
+          Đã thêm
         </div>
 
         <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${product.id}">
-          Add to Cart
+          Thêm vào giỏ hàng
         </button>
       </div>
     `;
   });
 
-  document.querySelector('.js-products-grid').innerHTML = productsHTML;
+  // Inject the product HTML into the products grid container
+  const productsGridElement = document.querySelector('.js-products-grid');
+  if (productsGridElement) {
+    productsGridElement.innerHTML = productsHTML;
+  }
 
-  // Khởi tạo biến addedMessageTimeouts bên ngoài addEventListener
+  // Initialize addedMessageTimeouts outside of event listeners to avoid global scope issues
   const addedMessageTimeouts = {};
 
+  // Attach event listeners to add-to-cart buttons
   document.querySelectorAll('.js-add-to-cart').forEach((button) => {
     button.addEventListener('click', () => {
       const productId = button.dataset.productId;
@@ -98,16 +106,19 @@ function renderProductsGrid(){
       if (addedMessage) {
         addedMessage.classList.add('new-class');
 
+        // Clear existing timeout for this productId if any
         if (addedMessageTimeouts[productId]) {
           clearTimeout(addedMessageTimeouts[productId]);
         }
 
+        // Set a timeout to remove the "Added" message
         const timeoutId = setTimeout(() => {
           addedMessage.classList.remove('new-class');
         }, 2000);
 
+        // Store the timeout ID to clear it later if necessary
         addedMessageTimeouts[productId] = timeoutId;
       }
     });
-  })
-  };
+  });
+}
