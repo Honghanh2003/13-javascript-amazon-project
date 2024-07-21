@@ -78,7 +78,7 @@ function renderProductsGrid() {
         </div>
 
         <button class="add-to-cart-button button-primary js-add-to-cart" data-product-id="${product.id}">
-          Thêm vào giỏ hàng
+         Add to Cart
         </button>
       </div>
     `;
